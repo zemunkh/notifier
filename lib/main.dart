@@ -1,6 +1,14 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:assets_audio_player/assets_audio_player.dart';
+// import 'package:flutter_sound/flutter_sound.dart';
+// import 'package:path_provider/path_provider.dart';
+import 'package:notifier/utils.dart';
+
+
+var audioTools = LocalAudioTools();
 
 
 void main() => runApp(new MyApp());
@@ -31,7 +39,6 @@ class _OrderNotifyState extends State<OrderNotify> {
 
   final TextEditingController _myController = TextEditingController();
 
-
   String result = "";
 
   @override
@@ -39,6 +46,37 @@ class _OrderNotifyState extends State<OrderNotify> {
     _myController.dispose();
     super.dispose();
   }
+
+  void _playAudioNotifier(number) async {
+    // final url = 'https://incompetech.com/music/royalty-free/mp3-royaltyfree/Surf%20Shimmy.mp3';
+    // final url = 'file:///assets/audio/oneone.mp3';
+    // FlutterSound flutterSound = FlutterSound();
+    String audioName;
+    switch (number) {
+      case '1':
+        audioName = 'one.m4a';
+        break;
+      case '2':
+        audioName = 'two.m4a';
+        break;
+      case '3':
+        audioName = 'three.m4a';
+        break;
+      case '4':
+        audioName = 'four.m4a';
+        break;
+      case '5':
+        audioName = 'five.m4a';
+        break;      
+      default:
+        audioName = 'one.m4a';
+    }
+    audioTools
+      .loadFile(audioName)
+      .then((_) => audioTools.playAudioLoop(audioName));
+    audioTools.loadFile(audioName);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -122,20 +160,5 @@ class _OrderNotifyState extends State<OrderNotify> {
 }
 
 
-Future<Null> _playAudioNotifier(number) async {
 
-  AssetsAudioPlayer _assetsAudioPlayer;
 
-  _assetsAudioPlayer = AssetsAudioPlayer();
-
-  final List<String> orders = [];
-  print('Passed value: $number');
-
-  _assetsAudioPlayer.open(
-    AssetsAudio(
-      asset: "oneone.mp3",
-      folder: "assets/audio/",
-    ),
-  );
-  _assetsAudioPlayer.play();
-}
