@@ -51,40 +51,104 @@ class _OrderNotifyState extends State<OrderNotify> {
     // final url = 'https://incompetech.com/music/royalty-free/mp3-royaltyfree/Surf%20Shimmy.mp3';
     // final url = 'file:///assets/audio/oneone.mp3';
     // FlutterSound flutterSound = FlutterSound();
-    String audioName;
-    switch (number) {
+    String firstAudio;
+    String secondAudio;
+    var digit;
+    
+    digit = number.toString();
+
+    // for(int i=0; i<number.length; i++){
+    //   digit.add(number[i]);
+    //   print(' ###  Number in Digits: $digit');
+    // }
+    // var demo = number.toString();
+    // digit = digit[1];
+    print('RESULT: $digit');
+
+    switch (digit[1]) {
+      case '0':
+        if(digit[0] == '1') {
+          firstAudio = 'ten.m4a';
+        } else if (digit[0] == '2') {
+          firstAudio = 'twenty.m4a';
+        } else if (digit[0] == '3') {
+          firstAudio = 'thirty.m4a';
+        }
+        break;     
       case '1':
-        audioName = 'one.m4a';
+        firstAudio = 'one.m4a';
         break;
       case '2':
-        audioName = 'two.m4a';
+        firstAudio = 'two.m4a';
         break;
       case '3':
-        audioName = 'three.m4a';
+        firstAudio = 'three.m4a';
         break;
       case '4':
-        audioName = 'four.m4a';
+        firstAudio = 'four.m4a';
         break;
       case '5':
-        audioName = 'five.m4a';
+        firstAudio = 'five.m4a';
+        break;
+      case '6':
+        firstAudio = 'six.m4a';
+        break;     
+      case '7':
+        firstAudio = 'seven.m4a';
+        break;     
+      case '8':
+        firstAudio = 'eight.m4a';
+        break;   
+      case '9':
+        firstAudio = 'nine.m4a';
+        break;           
+      default:
+        firstAudio = 'one.m4a';
+    }
+    switch (digit[0]) {
+      case '1':
+        secondAudio = 'tenMore.m4a';
+        break;
+      case '2':
+        secondAudio = 'twentyMore.m4a';
+        break;
+      case '3':
+        secondAudio = 'thirtyMore.m4a';
+        break;
+      case '4':
+        secondAudio = 'tenMore.m4a';
+        break;
+      case '5':
+        secondAudio = 'tenMore.m4a';
+        break; 
+      case '6':
+        secondAudio = 'tenMore.m4a';
+        break; 
+      case '7':
+        secondAudio = 'tenMore.m4a';
+        break; 
+      case '8':
+        secondAudio = 'tenMore.m4a';
+        break; 
+      case '9':
+        secondAudio = 'tenMore.m4a';
         break;      
       default:
-        audioName = 'one.m4a';
+        secondAudio = '';
     }
+
     audioTools
-      .loadFile(audioName)
+      .loadFile(secondAudio)
       .then( (_) {
-        int res = audioTools.playAudioLoop(audioName);
+        audioTools.playAudioLoop(secondAudio);
+        
+          audioTools.loadFile(firstAudio);
          //play music callback
-        if(res == 1) {
           entries.insert(0, result);
           entries.removeLast();
-        } else {
-          print('Error:');
-        }
 
       }); 
-    audioTools.loadFile(audioName);
+    
   }
 
 
@@ -114,6 +178,7 @@ class _OrderNotifyState extends State<OrderNotify> {
                       Expanded(
                         flex: 1,  /// text entry and submit section
                         child: new TextField(
+                          inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                           decoration: new InputDecoration(
                             hintText: "Type here",
                             fillColor: Colors.white,
