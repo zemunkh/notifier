@@ -34,7 +34,7 @@ class OrderNotify extends StatefulWidget {
 
 class _OrderNotifyState extends State<OrderNotify> {
   
-  final List<String> entries = <String>[];
+  List<String> entries = <String>['1', '2', '3', '4', '5', '6'];
   final List<int> colorCodes = <int>[600, 500, 400, 300, 200, 100];
 
   final TextEditingController _myController = TextEditingController();
@@ -73,7 +73,17 @@ class _OrderNotifyState extends State<OrderNotify> {
     }
     audioTools
       .loadFile(audioName)
-      .then((_) => audioTools.playAudioLoop(audioName));
+      .then( (_) {
+        int res = audioTools.playAudioLoop(audioName);
+         //play music callback
+        if(res == 1) {
+          entries.insert(0, result);
+          entries.removeLast();
+        } else {
+          print('Error:');
+        }
+
+      }); 
     audioTools.loadFile(audioName);
   }
 
@@ -98,7 +108,8 @@ class _OrderNotifyState extends State<OrderNotify> {
                       ),
                       Expanded(
                         flex: 7,
-                        child: Center(child: Text(result),)
+                        child: Center(child: Text(result,
+                          style: TextStyle(fontSize: 100.0,),),)
                       ),
                       Expanded(
                         flex: 1,  /// text entry and submit section

@@ -21,11 +21,12 @@ class LocalAudioTools {
     if (await file.exists()) _nameToPath[name] = file.path;
   }
 
-  void playAudioLoop(String name) {
+  int playAudioLoop(String name) {
     // restart audio if it has finished
     // _audioPlayer.setCompletionHandler(() => playAudio(name));
     print('Audio is done!');
     playAudio(name);
+    return 1;
   }
 
   Future<Null> playAudio(String name) async {
