@@ -1,11 +1,7 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:flutter_sound/flutter_sound.dart';
-// import 'package:path_provider/path_provider.dart';
 import 'package:notifier/utils.dart';
+import 'package:notifier/numberLogic.dart';
 
 
 var audioTools = LocalAudioTools();
@@ -48,107 +44,37 @@ class _OrderNotifyState extends State<OrderNotify> {
   }
 
   void _playAudioNotifier(number) async {
-    // final url = 'https://incompetech.com/music/royalty-free/mp3-royaltyfree/Surf%20Shimmy.mp3';
-    // final url = 'file:///assets/audio/oneone.mp3';
-    // FlutterSound flutterSound = FlutterSound();
-    String firstAudio;
-    String secondAudio;
-    var digit;
-    
-    digit = number.toString();
+    /// Check how many files will be called by digit
+    /// 1. Get the number of digits from input values
+    /// 2. Assign one digit and one time calling number to audio files
+    /// 3. Assign two time calling number to audio files
+    /// 4. Assign those numbers to audio player section, which decides how many tracks will be called.
+    List<String> audioFiles = <String>[]; 
+    audioFiles = numberLogic(number);
+    print('Files: #### $audioFiles');
 
-    // for(int i=0; i<number.length; i++){
-    //   digit.add(number[i]);
-    //   print(' ###  Number in Digits: $digit');
-    // }
-    // var demo = number.toString();
-    // digit = digit[1];
-    print('RESULT: $digit');
-
-    switch (digit[1]) {
-      case '0':
-        if(digit[0] == '1') {
-          firstAudio = 'ten.m4a';
-        } else if (digit[0] == '2') {
-          firstAudio = 'twenty.m4a';
-        } else if (digit[0] == '3') {
-          firstAudio = 'thirty.m4a';
-        }
-        break;     
-      case '1':
-        firstAudio = 'one.m4a';
-        break;
-      case '2':
-        firstAudio = 'two.m4a';
-        break;
-      case '3':
-        firstAudio = 'three.m4a';
-        break;
-      case '4':
-        firstAudio = 'four.m4a';
-        break;
-      case '5':
-        firstAudio = 'five.m4a';
-        break;
-      case '6':
-        firstAudio = 'six.m4a';
-        break;     
-      case '7':
-        firstAudio = 'seven.m4a';
-        break;     
-      case '8':
-        firstAudio = 'eight.m4a';
-        break;   
-      case '9':
-        firstAudio = 'nine.m4a';
-        break;           
-      default:
-        firstAudio = 'one.m4a';
-    }
-    switch (digit[0]) {
-      case '1':
-        secondAudio = 'tenMore.m4a';
-        break;
-      case '2':
-        secondAudio = 'twentyMore.m4a';
-        break;
-      case '3':
-        secondAudio = 'thirtyMore.m4a';
-        break;
-      case '4':
-        secondAudio = 'tenMore.m4a';
-        break;
-      case '5':
-        secondAudio = 'tenMore.m4a';
-        break; 
-      case '6':
-        secondAudio = 'tenMore.m4a';
-        break; 
-      case '7':
-        secondAudio = 'tenMore.m4a';
-        break; 
-      case '8':
-        secondAudio = 'tenMore.m4a';
-        break; 
-      case '9':
-        secondAudio = 'tenMore.m4a';
-        break;      
-      default:
-        secondAudio = '';
-    }
-
-    audioTools
-      .loadFile(secondAudio)
-      .then( (_) {
-        audioTools.playAudioLoop(secondAudio);
-        
-          audioTools.loadFile(firstAudio);
-         //play music callback
-          entries.insert(0, result);
-          entries.removeLast();
-
+    if(audioFiles.length == 1) {
+      audioTools.loadFile(audioFiles[0], null).then( (_) {
+        audioTools.playAudioLoop(audioFiles[0], null);
+        audioTools.loadFile(audioFiles[0], null);
+        //play music callback
+        entries.insert(0, result);
+        entries.removeLast();
       }); 
-    
+    } else if (audioFiles.length == 2) {
+      print("##########  Two Files #######");
+    }
+
+
+
+        // print('### Audio file = $secondAudio');
+        // audioTools.loadFile(firstAudio, secondAudio).then( (_) {
+        //   audioTools.playAudioLoop(firstAudio, secondAudio);
+
+        //   entries.insert(0, result);
+        //   entries.removeLast();
+        // });
+
   }
 
 
