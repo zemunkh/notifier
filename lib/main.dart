@@ -44,8 +44,11 @@ class _OrderNotifyState extends State<OrderNotify> {
   List<String> entries = <String>[' ', ' ', ' ', ' ', ' ', ' '];
   final List<int> colorCodes = <int>[600, 500, 400, 300, 200, 100];
   final TextEditingController _myController = TextEditingController();
+
   String result = "";
-  
+  String enderAudio = 'comeHere.m4a';
+
+  bool doneStatus = false;
 
   AudioPlayer audioPlayer;
   PlayerState playerState = PlayerState.stopped;
@@ -134,11 +137,18 @@ class _OrderNotifyState extends State<OrderNotify> {
       print("I am not Empty");
       play(audioFiles[0]);
       audioFiles.removeAt(0);
+      doneStatus = true;
     } else {
-      entries.insert(0, result);
-      entries.removeLast();
+      if(doneStatus == true) {
+        loadFile(enderAudio).then((_){
+          play(enderAudio);
+          entries.insert(0, result);
+          entries.removeLast();
+        });
+        doneStatus = false;
+      }
+      print("All audios are done."); 
     }
-
   }
 
   void _playAudioNotifier(number) async {
@@ -157,6 +167,7 @@ class _OrderNotifyState extends State<OrderNotify> {
         loadFile(audioFiles[0]).then((_){
           play(audioFiles[0]);
           audioFiles.removeAt(0);
+          doneStatus = true;
         });
       }
         //play music callback

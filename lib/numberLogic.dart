@@ -104,6 +104,7 @@ List<String> numberLogic(String number) {
       }
       files.add(firstAudio);
 
+
       return files;
 
     } else {
@@ -120,22 +121,22 @@ List<String> numberLogic(String number) {
           firstAudio = 'thirtyMore.m4a';
           break;
         case '4':
-          firstAudio = 'tenMore.m4a';
+          firstAudio = 'fourtyMore.m4a';
           break;
         case '5':
-          firstAudio = 'tenMore.m4a';
+          firstAudio = 'fiftyMore.m4a';
           break; 
         case '6':
-          firstAudio = 'tenMore.m4a';
+          firstAudio = 'sixtyMore.m4a';
           break; 
         case '7':
-          firstAudio = 'tenMore.m4a';
+          firstAudio = 'seventyMore.m4a';
           break; 
         case '8':
-          firstAudio = 'tenMore.m4a';
+          firstAudio = 'eightyMore.m4a';
           break; 
         case '9':
-          firstAudio = 'tenMore.m4a';
+          firstAudio = 'ninetyMore.m4a';
           break;      
         default:
           firstAudio = '';

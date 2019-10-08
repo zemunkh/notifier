@@ -59,9 +59,24 @@ flutter:
    - assets/audio/ten.m4a
    - assets/audio/twenty.m4a
    - assets/audio/thirty.m4a
+   - assets/audio/forty.m4a
+   - assets/audio/fifty.m4a
+   - assets/audio/sixty.m4a
+   - assets/audio/seventy.m4a
+   - assets/audio/eighty.m4a
+   - assets/audio/ninety.m4a
+   - assets/audio/hundred.m4a
    - assets/audio/tenMore.m4a
    - assets/audio/twentyMore.m4a
    - assets/audio/thirtyMore.m4a
+   - assets/audio/fortyMore.m4a
+   - assets/audio/fiftyMore.m4a  
+   - assets/audio/sixtyMore.m4a
+   - assets/audio/seventyMore.m4a
+   - assets/audio/eightyMore.m4a
+   - assets/audio/ninetyMore.m4a
+   - assets/audio/hundredMore.m4a
+   - assets/audio/comeHere.m4a
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
