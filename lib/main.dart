@@ -115,6 +115,31 @@ class _OrderNotifyState extends State<OrderNotify> {
     if (await file1.exists()) setState((){_nameToPath[name1] = file1.path;}); 
   }
 
+    Future loadThreeFile(String name0, String name1, String name2) async {
+    final bytes0 = await rootBundle.load('assets/audio/$name0');
+    final dir0 = await getApplicationDocumentsDirectory();
+    final file0 = File('${dir0.path}/$name0');
+
+    await file0.writeAsBytes(new Uint8List.view(bytes0.buffer));
+    if (await file0.exists()) setState((){_nameToPath[name0] = file0.path;});
+
+
+    final bytes1 = await rootBundle.load('assets/audio/$name1');
+    final dir1 = await getApplicationDocumentsDirectory();
+    final file1 = File('${dir1.path}/$name1');
+
+    await file1.writeAsBytes(new Uint8List.view(bytes1.buffer));
+    if (await file1.exists()) setState((){_nameToPath[name1] = file1.path;}); 
+
+
+    final bytes2 = await rootBundle.load('assets/audio/$name2');
+    final dir2 = await getApplicationDocumentsDirectory();
+    final file2 = File('${dir2.path}/$name2');
+
+    await file2.writeAsBytes(new Uint8List.view(bytes2.buffer));
+    if (await file2.exists()) setState((){_nameToPath[name2] = file2.path;}); 
+  }
+
   Future play(String name) async {
     await audioPlayer.play(_nameToPath[name], isLocal: true);
     setState(() => playerState = PlayerState.playing);
@@ -162,18 +187,36 @@ class _OrderNotifyState extends State<OrderNotify> {
     print('Files: #### $audioFiles');
 
 
-    if(audioFiles.length == 1) {
+    // if(audioFiles.length == 1) {
+    //   if(!isPlaying) {
+    //     loadFile(audioFiles[0]).then((_){
+    //       play(audioFiles[0]);
+    //       audioFiles.removeAt(0);
+    //       doneStatus = true;
+    //     });
+    //   }
+    //     //play music callback
+    // } else if (audioFiles.length == 2) {
+    //   print("##########  Two Files #######");
+    //   loadTwoFile(audioFiles[0], audioFiles[1]).then((_){
+    //     play(audioFiles[0]);
+    //     audioFiles.removeAt(0);
+    //   });
+    // }
+
+    if(audioFiles.length == 2) {
+      print("##########  Three Files #######");
       if(!isPlaying) {
-        loadFile(audioFiles[0]).then((_){
+      loadTwoFile(audioFiles[0], audioFiles[1]).then((_){
           play(audioFiles[0]);
           audioFiles.removeAt(0);
           doneStatus = true;
         });
       }
         //play music callback
-    } else if (audioFiles.length == 2) {
-      print("##########  Two Files #######");
-      loadTwoFile(audioFiles[0], audioFiles[1]).then((_){
+    } else if (audioFiles.length == 3) {
+      print("##########  Three Files #######");
+      loadThreeFile(audioFiles[0], audioFiles[1], audioFiles[2]).then((_){
         play(audioFiles[0]);
         audioFiles.removeAt(0);
       });

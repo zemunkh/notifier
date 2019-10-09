@@ -16,7 +16,7 @@ List<String> numberLogic(String number) {
 
       switch (digit[0]) {
         case '0':
-          firstAudio = 'oneone.mp3';
+          firstAudio = 'one.m4a';
           break;     
         case '1':
           if(digit.length == 2) {
@@ -48,7 +48,7 @@ List<String> numberLogic(String number) {
         case '4':
           if(digit.length == 2) {
             if(digit[1] == '0') {
-              firstAudio = 'fourty.m4a';
+              firstAudio = 'forty.m4a';
             }
           } else {
             firstAudio = 'four.m4a';
@@ -102,6 +102,7 @@ List<String> numberLogic(String number) {
         default:
           firstAudio = 'one.m4a';
       }
+      files.add('notification.mp3');
       files.add(firstAudio);
 
 
@@ -112,7 +113,13 @@ List<String> numberLogic(String number) {
 
       switch (digit[0]) {
         case '1':
-          firstAudio = 'tenMore.m4a';
+          if(digit.length == 3) {
+            if(digit[1] == '0' && digit[2] == '0') {
+              firstAudio = 'hundred.m4a';
+            }
+          } else {
+            firstAudio = 'tenMore.m4a';
+          }
           break;
         case '2':
           firstAudio = 'twentyMore.m4a';
@@ -121,7 +128,7 @@ List<String> numberLogic(String number) {
           firstAudio = 'thirtyMore.m4a';
           break;
         case '4':
-          firstAudio = 'fourtyMore.m4a';
+          firstAudio = 'fortyMore.m4a';
           break;
         case '5':
           firstAudio = 'fiftyMore.m4a';
@@ -174,6 +181,7 @@ List<String> numberLogic(String number) {
           secondAudio = 'one.m4a';
       }
 
+      files.add('notification.mp3');
       files.add(firstAudio);
       files.add(secondAudio);
       return files;
