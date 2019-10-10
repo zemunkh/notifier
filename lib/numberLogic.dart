@@ -11,7 +11,7 @@ List<String> numberLogic(String number) {
 
     digit = number.toString();
 
-     if(digit.length == 1 || (digit.length == 2 &&  digit[1] == '0')) {
+     if(digit.length == 1 || (digit.length == 2 &&  digit[1] == '0') || (digit.length >= 3)) {
       print("One time Calling Number #### $digit");
 
       switch (digit[0]) {
@@ -23,6 +23,8 @@ List<String> numberLogic(String number) {
             if(digit[1] == '0') {
               firstAudio = 'ten.m4a';
             }
+          } else if (digit.length > 2 || digit == '100'){
+            firstAudio = 'hundred.m4a';
           } else {
             firstAudio = 'one.m4a';
           }
@@ -113,13 +115,7 @@ List<String> numberLogic(String number) {
 
       switch (digit[0]) {
         case '1':
-          if(digit.length == 3) {
-            if(digit[1] == '0' && digit[2] == '0') {
-              firstAudio = 'hundred.m4a';
-            }
-          } else {
-            firstAudio = 'tenMore.m4a';
-          }
+          firstAudio = 'tenMore.m4a';
           break;
         case '2':
           firstAudio = 'twentyMore.m4a';

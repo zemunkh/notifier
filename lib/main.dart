@@ -5,7 +5,6 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/services.dart' show rootBundle;
-// import 'package:notifier/utils.dart';
 import 'package:audioplayer/audioplayer.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -13,8 +12,6 @@ import 'package:notifier/numberLogic.dart';
 
 
 typedef void OnError(Exception exception);
-
-// var audioTools = LocalAudioTools();
 
 
 void main() => runApp(new MyApp());
@@ -41,6 +38,11 @@ class OrderNotify extends StatefulWidget {
 }
 
 class _OrderNotifyState extends State<OrderNotify> {
+  final FocusNode _focusNode = FocusNode();
+  String _message;
+
+
+
   List<String> entries = <String>[' ', ' ', ' ', ' ', ' ', ' '];
   final List<int> colorCodes = <int>[600, 500, 400, 300, 200, 100];
   final TextEditingController _myController = TextEditingController();
@@ -72,6 +74,7 @@ class _OrderNotifyState extends State<OrderNotify> {
   @override
   void dispose() {
     _audioPlayerStateSubscription.cancel();
+    _focusNode.dispose();
     _myController.dispose();
     super.dispose();
   }
@@ -115,7 +118,7 @@ class _OrderNotifyState extends State<OrderNotify> {
     if (await file1.exists()) setState((){_nameToPath[name1] = file1.path;}); 
   }
 
-    Future loadThreeFile(String name0, String name1, String name2) async {
+  Future loadThreeFile(String name0, String name1, String name2) async {
     final bytes0 = await rootBundle.load('assets/audio/$name0');
     final dir0 = await getApplicationDocumentsDirectory();
     final file0 = File('${dir0.path}/$name0');
@@ -186,26 +189,8 @@ class _OrderNotifyState extends State<OrderNotify> {
     audioFiles = numberLogic(number);
     print('Files: #### $audioFiles');
 
-
-    // if(audioFiles.length == 1) {
-    //   if(!isPlaying) {
-    //     loadFile(audioFiles[0]).then((_){
-    //       play(audioFiles[0]);
-    //       audioFiles.removeAt(0);
-    //       doneStatus = true;
-    //     });
-    //   }
-    //     //play music callback
-    // } else if (audioFiles.length == 2) {
-    //   print("##########  Two Files #######");
-    //   loadTwoFile(audioFiles[0], audioFiles[1]).then((_){
-    //     play(audioFiles[0]);
-    //     audioFiles.removeAt(0);
-    //   });
-    // }
-
     if(audioFiles.length == 2) {
-      print("##########  Three Files #######");
+      print("##########  Two Files #######");
       if(!isPlaying) {
       loadTwoFile(audioFiles[0], audioFiles[1]).then((_){
           play(audioFiles[0]);
