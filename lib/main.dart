@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -77,6 +78,17 @@ class _OrderNotifyState extends State<OrderNotify> {
     _focusNode.dispose();
     _myController.dispose();
     super.dispose();
+  }
+
+  void _handleKeyEvent(RawKeyEvent event) {
+    setState(() {
+      if(event.logicalKey == LogicalKeyboardKey.enter) {
+        result = '12';
+        _playAudioNotifier(result);
+      } else {
+        _message = '${event.logicalKey.debugName}';
+      }
+    });
   }
 
   void initAudioPlayer() {
@@ -209,6 +221,7 @@ class _OrderNotifyState extends State<OrderNotify> {
   }
 
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -241,10 +254,10 @@ class _OrderNotifyState extends State<OrderNotify> {
                         child: Container(
                           decoration: BoxDecoration(
                             border: Border(
-                              right: BorderSide(width: 3.0, color: Colors.black87),
+                              right: BorderSide(width: 0.0, color: Colors.black87),
                               top: BorderSide(width: 3.0, color: Colors.black87),
-                              left: BorderSide(width: 3.0, color: Colors.black87),
-                              bottom: BorderSide(width: 3.0, color: Colors.white),
+                              left: BorderSide(width: 0.0, color: Colors.black87),
+                              bottom: BorderSide(width: 0.0, color: Colors.white),
                             ),
                           ),
                           child: Center(child: Text(result,
@@ -254,30 +267,47 @@ class _OrderNotifyState extends State<OrderNotify> {
                       Expanded(
                         flex: 1,  /// text entry and submit section
                         child: Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                              right: BorderSide(width: 3.0, color: Colors.black87),
-                              top: BorderSide(width: 3.0, color: Colors.white),
-                              left: BorderSide(width: 3.0, color: Colors.black87),
-                              bottom: BorderSide(width: 3.0, color: Colors.black87),
+                          // decoration: BoxDecoration(
+                          //   border: Border(
+                          //     right: BorderSide(width: 0.0, color: Colors.white),
+                          //     top: BorderSide(width: 0.0, color: Colors.white),
+                          //     left: BorderSide(width: 0.0, color: Colors.white),
+                          //     bottom: BorderSide(width: 0.0, color: Colors.white),
+                          //   ),
+                          // ),
+
+                          child: RawKeyboardListener(
+                            focusNode: _focusNode,
+                            onKey: _handleKeyEvent,
+                            child: AnimatedBuilder(
+                              animation: _focusNode,
+                              builder: (BuildContext context, Widget child) {
+                                if(!_focusNode.hasFocus) {
+                                  FocusScope.of(context).requestFocus(_focusNode);
+                                    // child: new TextField(
+                                    //   inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                                    //   decoration: InputDecoration(
+                                    //     hintText: '?',
+                                    //     contentPadding: EdgeInsets.all(8.0),
+                                    //   ),
+                                    //   style: TextStyle(color: Colors.white),
+                                    //   controller: _myController,
+                                    //   onSubmitted: (String str){
+                                    //     setState((){
+                                    //       result = str;
+                                    //       // entries.add(result); play music callback
+
+                                    //       _myController.clear();
+                                    //     });
+                                    //   }
+                                    // ),
+                                }
+                                return Container(
+                                  child: Text(_message ?? ' ', 
+                                  style: TextStyle(color: Colors.white),),
+                                ); ///new Text(_message ?? 'press key');
+                              },
                             ),
-                          ),
-                          child: new TextField(
-                            inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                            decoration: InputDecoration(
-                              hintText: '?',
-                              contentPadding: EdgeInsets.all(8.0),
-                            ),
-                            style: TextStyle(color: Colors.white),
-                            controller: _myController,
-                            onSubmitted: (String str){
-                              setState((){
-                                result = str;
-                                // entries.add(result); play music callback
-                                _playAudioNotifier(result);
-                                _myController.clear();
-                              });
-                            }
                           ),
                         ),
                       ),
