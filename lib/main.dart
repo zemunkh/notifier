@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -79,16 +78,71 @@ class _OrderNotifyState extends State<OrderNotify> {
     _myController.dispose();
     super.dispose();
   }
+    
+  String buffer = "";
 
   void _handleKeyEvent(RawKeyEvent event) {
-    setState(() {
-      if(event.logicalKey == LogicalKeyboardKey.enter) {
-        result = '12';
-        _playAudioNotifier(result);
-      } else {
-        _message = '${event.logicalKey.debugName}';
-      }
-    });
+    if(event.runtimeType.toString() == 'RawKeyUpEvent') {
+      setState(() {
+        if(event.logicalKey == LogicalKeyboardKey.enter || event.logicalKey == LogicalKeyboardKey.numpadEnter) {
+          // result = '12';
+          result = buffer;
+          _playAudioNotifier(result);
+          buffer = '';
+        } else {
+          // _message = '${event.logicalKey.debugName}';
+          // print('Event label: ${event.logicalKey}');
+          var logicalKey = event.logicalKey.keyLabel;
+          switch (logicalKey) {
+            case '0':
+              print('I am Zero');
+              _message ='0';
+              break;
+            case '1':
+              print('I am One');
+              _message ='1';
+              break;
+            case '2':
+              print('I am Two');
+              _message ='2';
+              break;
+            case '3':
+              print('I am Three');
+              _message ='3';
+              break;
+            case '4':
+              print('I am Four');
+              _message ='4';
+              break;
+            case '5':
+              print('I am Five');
+              _message ='5';
+              break;
+            case '6':
+              print('I am Six');
+              _message ='6';
+              break;
+            case '7':
+              print('I am Seven');
+              _message ='7';
+              break;
+            case '8':
+              print('I am Eight');
+              _message ='8';
+              break;
+            case '9':
+              print('I am Nine');
+              _message ='9';
+              break;
+            default:
+              print('I am Default');
+              _message ='0';
+              break;
+          };
+          buffer = buffer + _message;
+        }
+      });
+    }
   }
 
   void initAudioPlayer() {
@@ -184,6 +238,9 @@ class _OrderNotifyState extends State<OrderNotify> {
           play(enderAudio);
           entries.insert(0, result);
           entries.removeLast();
+          setState(() {
+            result ='';
+          });
         });
         doneStatus = false;
       }
@@ -267,15 +324,6 @@ class _OrderNotifyState extends State<OrderNotify> {
                       Expanded(
                         flex: 1,  /// text entry and submit section
                         child: Container(
-                          // decoration: BoxDecoration(
-                          //   border: Border(
-                          //     right: BorderSide(width: 0.0, color: Colors.white),
-                          //     top: BorderSide(width: 0.0, color: Colors.white),
-                          //     left: BorderSide(width: 0.0, color: Colors.white),
-                          //     bottom: BorderSide(width: 0.0, color: Colors.white),
-                          //   ),
-                          // ),
-
                           child: RawKeyboardListener(
                             focusNode: _focusNode,
                             onKey: _handleKeyEvent,
@@ -284,23 +332,6 @@ class _OrderNotifyState extends State<OrderNotify> {
                               builder: (BuildContext context, Widget child) {
                                 if(!_focusNode.hasFocus) {
                                   FocusScope.of(context).requestFocus(_focusNode);
-                                    // child: new TextField(
-                                    //   inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                                    //   decoration: InputDecoration(
-                                    //     hintText: '?',
-                                    //     contentPadding: EdgeInsets.all(8.0),
-                                    //   ),
-                                    //   style: TextStyle(color: Colors.white),
-                                    //   controller: _myController,
-                                    //   onSubmitted: (String str){
-                                    //     setState((){
-                                    //       result = str;
-                                    //       // entries.add(result); play music callback
-
-                                    //       _myController.clear();
-                                    //     });
-                                    //   }
-                                    // ),
                                 }
                                 return Container(
                                   child: Text(_message ?? ' ', 
