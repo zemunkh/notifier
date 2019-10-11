@@ -110,7 +110,7 @@ List<String> numberLogic(String number) {
 
       return files;
 
-    } else {
+    } else if(digit.length == 2){
       print("Two time calling numbers ### ");
 
       switch (digit[0]) {
