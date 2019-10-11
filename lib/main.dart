@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:audioplayer/audioplayer.dart';
 import 'package:path_provider/path_provider.dart';
-// import 'package:notifier/numberLogic.dart';
+import 'package:flutter/widgets.dart';
 
 
 typedef void OnError(Exception exception);
@@ -84,11 +84,13 @@ class _OrderNotifyState extends State<OrderNotify> {
     if(event.runtimeType.toString() == 'RawKeyUpEvent') {
       setState(() {
         if(event.logicalKey == LogicalKeyboardKey.enter || event.logicalKey == LogicalKeyboardKey.numpadEnter) {
-          result = buffer;
           if(buffer.isNotEmpty) {
+            result = buffer;
             _playAudioNotifier(result);
             audioFile = '$result.wav';
             print('I am Enter');
+            // entries.insert(0, result);
+            // entries.removeLast();
           }
           buffer = '';
 
@@ -164,12 +166,6 @@ class _OrderNotifyState extends State<OrderNotify> {
   }
 
   Future loadFile(String name) async {
-    // final bytes = await rootBundle.load('audio/$name');
-    // final dir = await getApplicationDocumentsDirectory();
-    // final file = File('${dir.path}/$name');
-
-    // await file.writeAsBytes(new Uint8List.view(bytes.buffer));
-    // if (await file.exists()) setState((){_nameToPath[name] = file.path;});
     final file = new File('${(await getTemporaryDirectory()).path}/$name');
     await file.writeAsBytes((await loadAsset(name)).buffer.asUint8List());
     print('Temp File Path: ${file.path}');
@@ -201,12 +197,14 @@ class _OrderNotifyState extends State<OrderNotify> {
     print("##### #### ### Ready to Play next audio");
 
     if(doneStatus == true) {
+        // entries.insert(0, result);
+        // entries.removeLast();
         loadFile(audioFile).then((_){
           play(audioFile);
-          entries.insert(0, result);
-          entries.removeLast();
           setState(() {
-            result ='';
+            // result = '';
+            entries.insert(0, result);
+            entries.removeLast();
           });
         });
         doneStatus = false;
@@ -235,6 +233,12 @@ class _OrderNotifyState extends State<OrderNotify> {
 
   @override
   Widget build(BuildContext context) {
+    var ScreenWidth = MediaQuery.of(context).size.width;
+    var ScreenHeight = MediaQuery.of(context).size.height;
+
+    print('Screen Width: $ScreenWidth');
+    print('Screen Height: $ScreenHeight');
+    // double blockSize = ScreenWidth / 10;
     return Scaffold(
       // appBar: AppBar(title: Text('Order Notifier'),),
       body: Container(
@@ -255,7 +259,7 @@ class _OrderNotifyState extends State<OrderNotify> {
                           child:  Center(
                             child: Text('Сая гарсан',
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold,),
+                              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold,),
                             ),
                           ),
                         ),
@@ -272,7 +276,7 @@ class _OrderNotifyState extends State<OrderNotify> {
                             ),
                           ),
                           child: Center(child: Text(result,
-                            style: TextStyle(fontSize: 100.0,),),)
+                            style: TextStyle(fontSize: 100,),),)
                         ),
                       ),
                       Expanded(
@@ -314,7 +318,7 @@ class _OrderNotifyState extends State<OrderNotify> {
                           child:  Center(
                             child: Text('Гарсан',
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold,),
+                              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold,),
                             ),
                           ),
                         ),
@@ -335,10 +339,10 @@ class _OrderNotifyState extends State<OrderNotify> {
                             itemCount: entries.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Container(
-                                height: 30,
+                                height: 80,
                                 // color: Colors.amber[colorCodes[index]],
                                 child: Center(child: Text('${entries[index]}',
-                                  style: TextStyle(fontSize: 30,
+                                  style: TextStyle(fontSize: 80,
                                     color: Colors.blue[colorCodes[index]],
                                     fontWeight: FontWeight.bold,
                                     ),
