@@ -6,6 +6,10 @@ Customer's Order notifier project.
 
 This project is a one page application for the fast-food or queue organization.
 
+## Used third-party library
+
+### 1. audioplayer: ^0.5.2
+
 ## Application main page
 
 
