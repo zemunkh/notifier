@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.landscapeRight,
     ]);
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Order App',
       home: OrderNotify(),
     );
@@ -89,8 +90,6 @@ class _OrderNotifyState extends State<OrderNotify> {
             _playAudioNotifier(result);
             audioFile = '$result.wav';
             print('I am Enter');
-            // entries.insert(0, result);
-            // entries.removeLast();
           }
           buffer = '';
 
@@ -139,7 +138,7 @@ class _OrderNotifyState extends State<OrderNotify> {
               break;
             default:
               print('I am Default');
-              _message ='0';
+              _message ='';
               break;
           }
           buffer = buffer + _message;
@@ -233,12 +232,10 @@ class _OrderNotifyState extends State<OrderNotify> {
 
   @override
   Widget build(BuildContext context) {
-    var ScreenWidth = MediaQuery.of(context).size.width;
-    var ScreenHeight = MediaQuery.of(context).size.height;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double height = screenHeight / 8.4;
+    double headerFontSize = height;
 
-    print('Screen Width: $ScreenWidth');
-    print('Screen Height: $ScreenHeight');
-    // double blockSize = ScreenWidth / 10;
     return Scaffold(
       // appBar: AppBar(title: Text('Order Notifier'),),
       body: Container(
@@ -259,7 +256,7 @@ class _OrderNotifyState extends State<OrderNotify> {
                           child:  Center(
                             child: Text('Сая гарсан',
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold,),
+                              style: TextStyle(fontSize: headerFontSize / 2, fontWeight: FontWeight.bold,),
                             ),
                           ),
                         ),
@@ -276,7 +273,7 @@ class _OrderNotifyState extends State<OrderNotify> {
                             ),
                           ),
                           child: Center(child: Text(result,
-                            style: TextStyle(fontSize: 100,),),)
+                            style: TextStyle(fontSize: headerFontSize * 1.5,),),)
                         ),
                       ),
                       Expanded(
@@ -318,7 +315,7 @@ class _OrderNotifyState extends State<OrderNotify> {
                           child:  Center(
                             child: Text('Гарсан',
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold,),
+                              style: TextStyle(fontSize: headerFontSize / 2, fontWeight: FontWeight.bold,),
                             ),
                           ),
                         ),
@@ -339,10 +336,10 @@ class _OrderNotifyState extends State<OrderNotify> {
                             itemCount: entries.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Container(
-                                height: 80,
+                                height: height,
                                 // color: Colors.amber[colorCodes[index]],
                                 child: Center(child: Text('${entries[index]}',
-                                  style: TextStyle(fontSize: 80,
+                                  style: TextStyle(fontSize: headerFontSize,
                                     color: Colors.blue[colorCodes[index]],
                                     fontWeight: FontWeight.bold,
                                     ),
